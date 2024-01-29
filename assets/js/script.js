@@ -66,6 +66,9 @@ document.querySelector('.search-button').addEventListener('click', function (eve
                     console.log(todaysWeather);
                     console.log(todaysWind);
                     console.log(todaysHumidity);
+
+                    let todaySectionEl = document.querySelector("#today");
+                    todaySectionEl.append("aria-live", todaysWeather, todaysHumidity, todaysWind)
                 })
 
 
@@ -73,8 +76,6 @@ document.querySelector('.search-button').addEventListener('click', function (eve
 
 
     
-    // let todaySectionEl = document.querySelector("#today");
-    // todaySectionEl.textContent
 
 
 }
