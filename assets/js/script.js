@@ -52,14 +52,26 @@ document.querySelector('.search-button').addEventListener('click', function (eve
             console.log(lat);
             console.log(lon);
 
-
             let queryURL = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${api}`;
+        
+            fetch(queryURL)
+                .then(function (response) {
+                    return response.json();
+                })
+                .then(function (data) {
+                    console.log(data);
+                    let todaysWeather = data.list[0].main.temp;
+                    console.log(todaysWeather);
+                })
 
-            
 
         });
 
-        
+
+    
+    // let todaySectionEl = document.querySelector("#today");
+    // todaySectionEl.textContent
+
 
 }
 
