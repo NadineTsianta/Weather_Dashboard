@@ -1,5 +1,5 @@
 let api = "cb5a40ddc61a1f20b1cd2e9a2d9b8222";
-let queryURL = "https://api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}&appid=" + api;
+
 
 let userInput = document.querySelector('.form-input').value;
 
@@ -51,6 +51,11 @@ document.querySelector('.search-button').addEventListener('click', function (eve
 
             console.log(lat);
             console.log(lon);
+
+
+            let queryURL = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${api}`;
+
+            
 
         });
 
