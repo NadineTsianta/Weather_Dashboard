@@ -29,7 +29,7 @@ document.querySelector('.search-button').addEventListener('click', function (eve
             console.log(lat);
             console.log(lon);
 
-            let queryURL = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${api}`;
+            let queryURL = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&cnt=1&appid=${api}&units=metric`;
 
             fetch(queryURL)
                 .then(response => response.json())
@@ -43,16 +43,16 @@ document.querySelector('.search-button').addEventListener('click', function (eve
                     console.log(todaysHumidity);
 
                     // Conversion to Celsius
-                    let todaysWeatherCelsius = todaysWeather - 273.15;
+                    // let todaysWeatherCelsius = todaysWeather - 273.15;
 
                     // Convert wind speed from m/s to mph
-                    let todaysWindMPH = todaysWind * 2.237;
+                    // let todaysWindMPH = todaysWind * 2.237;
 
                     let todaySectionEl = document.querySelector("#today");
                     todaySectionEl.innerHTML = `
-                        <p>Temperature: ${todaysWeatherCelsius.toFixed(2)} °C</p>
+                        <p>Temperature: ${todaysWeather.toFixed(2)} °C</p>
                         <p>Humidity: ${todaysHumidity}%</p>
-                        <p>Wind Speed: ${todaysWindMPH.toFixed(2)} mph</p>
+                        <p>Wind Speed: ${todaysWind.toFixed(2)} mph</p>
                     `;
 
                     let forecastSectionEl = document.querySelector("#forecast");
@@ -64,10 +64,10 @@ document.querySelector('.search-button').addEventListener('click', function (eve
                         let forecastTemp = daysForecast.main.temp; // Temperature in Kelvin
 
                         // Convert temperature from Kelvin to Celsius
-                        let forecastTempCelsius = forecastTemp - 273.15;
+                        // let forecastTempCelsius = forecastTemp - 273.15;
 
                         forecastSectionEl.innerHTML += `
-                            <p>${i} day: ${forecastTempCelsius.toFixed(2)} °C</p>
+                            <p>${i} day: ${forecastTemp.toFixed(2)} °C</p>
                         `;
                     }
                 })
