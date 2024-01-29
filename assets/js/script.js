@@ -45,7 +45,16 @@ document.querySelector('.search-button').addEventListener('click', function (eve
         })
         .then(function (data) {
             console.log(data);
+
+            let lat = data[0].lat;
+            let lon = data[0].lon;
+
+            console.log(lat);
+            console.log(lon);
+
         });
+
+        
 
 }
 
