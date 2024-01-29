@@ -53,7 +53,7 @@ document.querySelector('.search-button').addEventListener('click', function (eve
             console.log(lon);
 
             let queryURL = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${api}`;
-        
+
             fetch(queryURL)
                 .then(function (response) {
                     return response.json();
@@ -67,15 +67,37 @@ document.querySelector('.search-button').addEventListener('click', function (eve
                     console.log(todaysWind);
                     console.log(todaysHumidity);
 
+                    // conversion to celcius
+
+                    let todaysWeatherFahrenheit = ((todaysWeather - 273.15) * 9 / 5) + 32;
+
+                    // Convert wind speed from m/s to mph
+                    let todaysWindMPH = todaysWind * 2.237;
+
                     let todaySectionEl = document.querySelector("#today");
-                    todaySectionEl.append("aria-live", todaysWeather, todaysHumidity, todaysWind)
+                    todaySectionEl.innerHTML = `
+                        <p>Temperature: ${todaysWeatherFahrenheit.toFixed(2)} °F</p>
+                        <p>Humidity: ${todaysHumidity}%</p>
+                        <p>Wind Speed: ${todaysWindMPH.toFixed(2)} mph</p>
+                    `;
+
+                   
+
+                    //temp for loot
+
+                    for (let i = 1; i <= data.list[4]; i++) {
+                        let daysForecast = data.list[i];
+                        let forecast = document.querySelector("#region");
+                        forecast.append(`${daysForecast.main.temp}`)
+
+                    }
                 })
 
 
         });
 
 
-    
+
 
 
 }
