@@ -36,7 +36,8 @@ $('.search-button').on('click', function (event) {
     }
 
     // Update geocoding URL with the latest user input
-    let geocoding = `https://api.openweathermap.org/geo/1.0/direct?q=${userInput}&limit={limit}&appid=${api}`;
+    let geocoding = `https://api.openweathermap.org/geo/1.0/direct?q=${userInput}&appid=${api}`;
+
 
     // Add the user input to the cities array if it doesn't already exist
     if (!cities.includes(userInput)) {
@@ -57,17 +58,12 @@ $('.search-button').on('click', function (event) {
     // Now you can use the updated userInput to fetch the weather data
     fetch(geocoding)
         .then(function (response) {
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
+           
             return response.json();
         })
         .then(function (data) {
             // Handle the response data here
             console.log(data);
         })
-        .catch(function (error) {
-            // Handle fetch errors here
-            console.error('Fetch error:', error);
-        });
+       
 });
