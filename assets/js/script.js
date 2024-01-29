@@ -61,7 +61,9 @@ document.querySelector('.search-button').addEventListener('click', function (eve
                 .then(function (data) {
                     console.log(data);
                     let todaysWeather = data.list[0].main.temp;
+                    let todaysWind = data.list[0].wind.speed;
                     console.log(todaysWeather);
+                    console.log(todaysWind);
                 })
 
 
