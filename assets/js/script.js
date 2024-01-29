@@ -60,10 +60,12 @@ document.querySelector('.search-button').addEventListener('click', function (eve
                 })
                 .then(function (data) {
                     console.log(data);
-                    let todaysWeather = data.list[0].main.temp;
-                    let todaysWind = data.list[0].wind.speed;
+                    let todaysWeather = data.list[0].main.temp; // need to convert this. It's in fahrenheit
+                    let todaysWind = data.list[0].wind.speed; //need to convert this. It's in m/ph
+                    let todaysHumidity = data.list[0].main.humidity;
                     console.log(todaysWeather);
                     console.log(todaysWind);
+                    console.log(todaysHumidity);
                 })
 
 
