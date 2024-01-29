@@ -59,7 +59,7 @@ document.querySelector('.search-button').addEventListener('click', function (eve
                     forecastSectionEl.innerHTML = ""; // Clear previous forecast
 
                     // Forecast for next days
-                    for (let i = 1; i <= 4; i++) {
+                    for (let i = 0; i <= 4; i++) {
                         let daysForecast = data.list[i];
                         let forecastTemp = daysForecast.main.temp; // Temperature in Kelvin
 
@@ -71,13 +71,9 @@ document.querySelector('.search-button').addEventListener('click', function (eve
                         `;
                     }
                 })
-                .catch(error => {
-                    console.error('Forecast API error:', error);
-                });
+               
         })
-        .catch(error => {
-            console.error('Geocoding API error:', error);
-        });
+        
 });
 
 function updateCityButtons() {
