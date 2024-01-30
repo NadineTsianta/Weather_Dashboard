@@ -27,6 +27,7 @@ document.querySelector('.search-button').addEventListener('click', function (eve
         for (let i = 0; i < cities.length; i++) {
             let city = cities[i];
             let btn = document.createElement('button');
+            btn.className = "btn btn-outline-secondary"
             btn.textContent = city;
             cityBtn.appendChild(btn);
     
