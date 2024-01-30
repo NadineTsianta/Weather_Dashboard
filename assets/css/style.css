@@ -38,6 +38,11 @@ align-items: center;
     border-radius: 10px !important;
   }
 
+.cityBtn {
+    margin: 10px;
+}
+
+
   /*section to change background for smaller screens from <995*/
  @media screen and (max-width: 994px){
     body {

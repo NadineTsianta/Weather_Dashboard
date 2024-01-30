@@ -21,23 +21,30 @@ document.querySelector('.search-button').addEventListener('click', function (eve
     weatherData(userInput);
 
     function updateCityButtons() {
+       
         let cityBtn = document.querySelector('.list-group');
         cityBtn.innerHTML = '';
     
         for (let i = 0; i < cities.length; i++) {
             let city = cities[i];
             let btn = document.createElement('button');
-            btn.className = "btn btn-outline-secondary"
+            btn.className = "cityBtn btn btn-outline-secondary"
             btn.textContent = city;
             cityBtn.appendChild(btn);
     
-            btn.addEventListener('click', function(){
-                // document.querySelector("#today").empty;
-                weatherData(city);
-            });
+            
         }
     }
     
+    document.querySelector('.list-group').addEventListener('click', function (event) {
+       
+        if (event.target.classList.contains('cityBtn')) {
+            let city = event.target.textContent;
+            weatherData(city);
+        }
+    });
+
+
     function weatherData(city){
         fetch(geocoding)
         .then(function (response) {
@@ -81,6 +88,14 @@ document.querySelector('.search-button').addEventListener('click', function (eve
 
 
                     let todaySectionEl = document.querySelector("#today");
+
+                    while (todaySectionEl.firstChild) {
+                        todaySectionEl.removeChild(todaySectionEl.firstChild);
+                    }
+
+
+                    // todaySectionEl.textContent = '';
+
                     let cardElement = document.createElement("div");
                     //card element
                     cardElement.className = "card mb-3 text-white bg-dark bg-gradient bg-opacity-75";
