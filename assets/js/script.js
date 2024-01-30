@@ -19,8 +19,12 @@ document.querySelector('.search-button').addEventListener('click', function (eve
     }
 
     fetch(geocoding)
-        .then(response => response.json())
-        .then(data => {
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function(data) {
+
+        
             console.log(data);
 
             let lat = data[0].lat;
@@ -29,11 +33,17 @@ document.querySelector('.search-button').addEventListener('click', function (eve
             console.log(lat);
             console.log(lon);
 
-            let queryURL = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&cnt=1&appid=${api}&units=metric`;
+            let queryURL = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&cnt=40&appid=${api}&units=metric`;
+
+            
 
             fetch(queryURL)
-                .then(response => response.json())
-                .then(data => {
+                .then(function (response) {
+                    return response.json();
+                })
+                .then(function(data) {
+        
+                
                     console.log(data);
                     let todaysWeather = data.list[0].main.temp; // Temperature in Kelvin
                     let todaysWind = data.list[0].wind.speed; // Wind speed in m/s
@@ -42,34 +52,30 @@ document.querySelector('.search-button').addEventListener('click', function (eve
                     console.log(todaysWind);
                     console.log(todaysHumidity);
 
-                    // Conversion to Celsius
-                    // let todaysWeatherCelsius = todaysWeather - 273.15;
-
-                    // Convert wind speed from m/s to mph
-                    // let todaysWindMPH = todaysWind * 2.237;
+                   
 
                     let todaySectionEl = document.querySelector("#today");
                     todaySectionEl.innerHTML = `
                         <p>Temperature: ${todaysWeather.toFixed(2)} °C</p>
                         <p>Humidity: ${todaysHumidity}%</p>
-                        <p>Wind Speed: ${todaysWind.toFixed(2)} mph</p>
+                        <p>Wind Speed: ${todaysWind.toFixed(2)} kmph</p>
                     `;
 
-                    let forecastSectionEl = document.querySelector("#forecast");
-                    forecastSectionEl.innerHTML = ""; // Clear previous forecast
+                    // let forecastSectionEl = document.querySelector("#forecast");
+                    // forecastSectionEl.innerHTML = ""; // Clear previous forecast
 
-                    // Forecast for next days
-                    for (let i = 0; i <= 4; i++) {
-                        let daysForecast = data.list[i];
-                        let forecastTemp = daysForecast.main.temp; // Temperature in Kelvin
+                    // // Forecast for next days
+                    // for (let i = 0; i <= 4; i++) {
+                    //     let daysForecast = data.list[i];
+                    //     let forecastTemp = daysForecast.main.temp; // Temperature in Kelvin
 
-                        // Convert temperature from Kelvin to Celsius
-                        // let forecastTempCelsius = forecastTemp - 273.15;
+                    //     // Convert temperature from Kelvin to Celsius
+                    //     // let forecastTempCelsius = forecastTemp - 273.15;
 
-                        forecastSectionEl.innerHTML += `
-                            <p>${i} day: ${forecastTemp.toFixed(2)} °C</p>
-                        `;
-                    }
+                    //     forecastSectionEl.innerHTML += `
+                    //         <p>${i} day: ${forecastTemp.toFixed(2)} °C</p>
+                    //     `;
+                    // }
                 })
                
         })
