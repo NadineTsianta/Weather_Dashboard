@@ -1,5 +1,5 @@
 let api = "cb5a40ddc61a1f20b1cd2e9a2d9b8222";
-let cities = []; // user values inserted
+let cities = JSON.parse(localStorage.getItem('cities')) || [];
 
 document.querySelector('.search-button').addEventListener('click', function (event) {
     event.preventDefault();
@@ -15,117 +15,96 @@ document.querySelector('.search-button').addEventListener('click', function (eve
 
     if (!cities.includes(userInput)) {
         cities.push(userInput);
+        localStorage.setItem('cities', JSON.stringify(cities));
         updateCityButtons();
     }
 
+    showLoadingIndicator();
+
     weatherData(userInput);
 
+    function showLoadingIndicator() {
+        // Display a loading message while waiting for the data
+        let todaySectionEl = document.querySelector("#today");
+        todaySectionEl.innerHTML = '<p>Loading...</p>';
+    }
+
     function updateCityButtons() {
-       
+        // Clear existing content before adding new buttons
         let cityBtn = document.querySelector('.list-group');
         cityBtn.innerHTML = '';
-    
+
+        // Add buttons for each city
         for (let i = 0; i < cities.length; i++) {
             let city = cities[i];
             let btn = document.createElement('button');
             btn.className = "cityBtn btn btn-outline-secondary"
             btn.textContent = city;
             cityBtn.appendChild(btn);
-    
-            
+
+            btn.addEventListener('click', function () {
+                // Display loading when clicking a city button
+                showLoadingIndicator();
+                weatherData(city);
+            });
         }
     }
-    
-    document.querySelector('.list-group').addEventListener('click', function (event) {
-       
-        if (event.target.classList.contains('cityBtn')) {
-            let city = event.target.textContent;
-            weatherData(city);
-        }
-    });
 
-
-    function weatherData(city){
-        fetch(geocoding)
-        .then(function (response) {
-            return response.json();
-        })
-        .then(function (data) {
-
-
-            // console.log(data);
-
-            let lat = data[0].lat;
-            let lon = data[0].lon;
-            let cityName = data[0].name
-
-            // console.log(lat);
-            // console.log(lon);
-            // console.log(cityName);
-
-            let queryURL = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&cnt=40&appid=${api}&units=metric`;
-
-
-
-            fetch(queryURL)
-                .then(function (response) {
-                    return response.json();
-                })
-                .then(function (data) {
-
-
-                    // console.log(data);        
-                    let todaysWeather = data.list[0].main.temp; // Temperature in Kelvin
-                    let todaysWind = data.list[0].wind.speed; // Wind speed in m/s
-                    let todaysHumidity = data.list[0].main.humidity;
-                    
-                    // console.log(todaysWeather);
-                    // console.log(todaysWind);
-                    // console.log(todaysHumidity);
-
-                    let now = dayjs();
-
-
-
-                    let todaySectionEl = document.querySelector("#today");
-
-                    while (todaySectionEl.firstChild) {
-                        todaySectionEl.removeChild(todaySectionEl.firstChild);
-                    }
-
-
-                    // todaySectionEl.textContent = '';
-
-                    let cardElement = document.createElement("div");
-                    //card element
-                    cardElement.className = "card mb-3 text-white bg-dark bg-gradient bg-opacity-75";
-                    cardElement.style = "width: 100%; height: 300px"; 
-
-                    //  card body
-                    let cardBodyElement = document.createElement("div");
-                    cardBodyElement.className = "card-body";
-
-                    // Add the content to the card body
-                    cardBodyElement.innerHTML = `<h2 class="card-text">${cityName}</h2>
-                    <h4 class="card-text"> ${now.format('dddd MM-DD-YY  HH:mm')}</h4>
-                    <img src="./assets/images/temperature-half-solid.svg" width="35px"alt="Temperature Icon">
-                    <p class="card-text">Temperature: ${todaysWeather.toFixed(2)} °C</p>
-                    <p class="card-text">Humidity: ${todaysHumidity}%</p>
-                    <p class="card-text">Wind Speed: ${todaysWind.toFixed(2)} km/ph</p>
-                    `;
-                     
-                    // Append the card body to the card
-                    cardElement.appendChild(cardBodyElement);
-
-                    // Append the card to the #today section
-                    todaySectionEl.appendChild(cardElement);
-
-                })
-
-        })
-
+    function weatherData(city) {
+        // Fetch weather data for the selected city
+        fetchWeatherData(city)
+            .then(function (data) {
+                // Update the card with the fetched data
+                updateCard(data);
+            })
+            .catch(function (error) {
+                console.error('Error fetching weather data:', error);
+            });
     }
 
-    
+    function fetchWeatherData(city) {
+        // Fetch weather data from the OpenWeatherMap API
+        let url = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${api}&units=metric`;
+        return fetch(url)
+            .then(function (response) {
+                return response.json();
+            });
+    }
 
+    function updateCard(data) {
+        // Update the card with the weather data
+        let cityName = data.city.name;
+        let todaysWeather = data.list[0].main.temp;
+        let todaysWind = data.list[0].wind.speed;
+        let todaysHumidity = data.list[0].main.humidity;
+
+        let now = dayjs();
+
+        // Get the container for today's weather
+        let todaySectionEl = document.querySelector("#today");
+        todaySectionEl.innerHTML = '';
+
+        // Create a new card
+        let cardElement = document.createElement("div");
+        cardElement.className = "card mb-3 text-white bg-dark bg-gradient bg-opacity-75";
+        cardElement.style = "width: 100%; height: 300px";
+
+        // Create card body
+        let cardBodyElement = document.createElement("div");
+        cardBodyElement.className = "card-body";
+
+        // Add content to the card body
+        cardBodyElement.innerHTML = `<h2 class="card-text">${cityName}</h2>
+            <h4 class="card-text"> ${now.format('dddd MM-DD-YY  HH:mm')}</h4>
+            <img src="./assets/images/temperature-half-solid.svg" width="35px" alt="Temperature Icon">
+            <p class="card-text">Temperature: ${todaysWeather.toFixed(2)} °C</p>
+            <p class="card-text">Humidity: ${todaysHumidity}%</p>
+            <p class="card-text">Wind Speed: ${todaysWind.toFixed(2)} km/ph</p>`;
+
+        // Append the card body to the card
+        cardElement.appendChild(cardBodyElement);
+
+        // Append the card to the container for today's weather
+        todaySectionEl.appendChild(cardElement);
+    }
 });
