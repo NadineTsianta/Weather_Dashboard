@@ -91,7 +91,7 @@ document.querySelector('.search-button').addEventListener('click', function (eve
                     <img src="./assets/images/temperature-half-solid.svg" width="35px"alt="Temperature Icon">
                     <p class="card-text">Temperature: ${todaysWeather.toFixed(2)} °C</p>
                     <p class="card-text">Humidity: ${todaysHumidity}%</p>
-                    <p class="card-text">Wind Speed: ${todaysWind.toFixed(2)} kmph</p>
+                    <p class="card-text">Wind Speed: ${todaysWind.toFixed(2)} km/ph</p>
                     `;
                      
                     // Append the card body to the card

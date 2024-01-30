@@ -2,3 +2,32 @@ body {
     background-color: rgb(228, 228, 228);
 }
 
+.input-group {
+align-items: center;
+}
+
+.form-input,
+.search-button {
+    height: 40px; /* Adjust the height as needed */
+    
+}
+
+.search-button {
+    display: flex;
+    align-items: center;
+}
+
+.hr {
+    border: none;
+    height: 1px;
+    background-color: #333;
+    margin: 10px 0;
+}
+
+.search-button {
+    margin: 15px;
+}
+
+  .form-input {
+    border-radius: 10px !important;
+  }
