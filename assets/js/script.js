@@ -18,7 +18,26 @@ document.querySelector('.search-button').addEventListener('click', function (eve
         updateCityButtons();
     }
 
-    fetch(geocoding)
+    weatherData(userInput);
+
+    function updateCityButtons() {
+        let cityBtn = document.querySelector('.list-group');
+        cityBtn.innerHTML = '';
+    
+        for (let i = 0; i < cities.length; i++) {
+            let city = cities[i];
+            let btn = document.createElement('button');
+            btn.textContent = city;
+            cityBtn.appendChild(btn);
+    
+            btn.addEventListener('click', function(){
+                weatherData(city);
+            });
+        }
+    }
+    
+    function weatherData(city){
+        fetch(geocoding)
         .then(function (response) {
             return response.json();
         })
@@ -68,14 +87,13 @@ document.querySelector('.search-button').addEventListener('click', function (eve
 
                     // Add the content to the card body
                     cardBodyElement.innerHTML = `  
-                    <h2 class="card-text"> ${now.format('dddd YYYY-MM-DD HH:mm')}</h2>
+                    <h2 class="card-text"> ${now.format('dddd MM-DD-YY  HH:mm')}</h2>
                     <img src="./assets/images/temperature-half-solid.svg" width="35px"alt="Temperature Icon">
                     <p class="card-text">Temperature: ${todaysWeather.toFixed(2)} °C</p>
                     <p class="card-text">Humidity: ${todaysHumidity}%</p>
                     <p class="card-text">Wind Speed: ${todaysWind.toFixed(2)} kmph</p>
                     `;
                      
-
                     // Append the card body to the card
                     cardElement.appendChild(cardBodyElement);
 
@@ -101,16 +119,9 @@ document.querySelector('.search-button').addEventListener('click', function (eve
 
         })
 
+    }
+
+    
+
 });
 
-function updateCityButtons() {
-    let cityBtn = document.querySelector('.list-group');
-    cityBtn.innerHTML = '';
-
-    for (let i = 0; i < cities.length; i++) {
-        let city = cities[i];
-        let btn = document.createElement('button');
-        btn.textContent = city;
-        cityBtn.appendChild(btn);
-    }
-}
