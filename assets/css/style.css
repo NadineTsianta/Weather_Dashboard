@@ -1,5 +1,11 @@
 body {
-    background-color: rgb(228, 228, 228);
+    background: linear-gradient(
+        to right, 
+        #d4d4d4 0%,
+        #d4d4d4 25%,
+            #333c47 25%, 
+            #333c47 100%
+    );
 }
 
 .input-group {
@@ -30,4 +36,12 @@ align-items: center;
 
   .form-input {
     border-radius: 10px !important;
+  }
+
+  /*section to change background for smaller screens from <995*/
+ @media screen and (max-width: 994px){
+    body {
+        background-color:  #d4d4d4;
+    }
+
   }
