@@ -22,9 +22,9 @@ document.querySelector('.search-button').addEventListener('click', function (eve
         .then(function (response) {
             return response.json();
         })
-        .then(function(data) {
+        .then(function (data) {
 
-        
+
             console.log(data);
 
             let lat = data[0].lat;
@@ -35,15 +35,15 @@ document.querySelector('.search-button').addEventListener('click', function (eve
 
             let queryURL = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&cnt=40&appid=${api}&units=metric`;
 
-            
+
 
             fetch(queryURL)
                 .then(function (response) {
                     return response.json();
                 })
-                .then(function(data) {
-        
-                
+                .then(function (data) {
+
+
                     console.log(data);
                     let todaysWeather = data.list[0].main.temp; // Temperature in Kelvin
                     let todaysWind = data.list[0].wind.speed; // Wind speed in m/s
@@ -52,14 +52,31 @@ document.querySelector('.search-button').addEventListener('click', function (eve
                     console.log(todaysWind);
                     console.log(todaysHumidity);
 
-                   
+
 
                     let todaySectionEl = document.querySelector("#today");
-                    todaySectionEl.innerHTML = `
-                        <p>Temperature: ${todaysWeather.toFixed(2)} °C</p>
-                        <p>Humidity: ${todaysHumidity}%</p>
-                        <p>Wind Speed: ${todaysWind.toFixed(2)} kmph</p>
+                    let cardElement = document.createElement("div");
+                    //card element
+                    cardElement.className = "card mb-3 text-white bg-dark bg-gradient bg-opacity-75";
+                    cardElement.style = "width: 100%; height: 300px"; 
+
+                    //  card body
+                    let cardBodyElement = document.createElement("div");
+                    cardBodyElement.className = "card-body";
+
+                    // Add the content to the card body
+                    cardBodyElement.innerHTML = `  
+                    <p class="card-text">Temperature: ${todaysWeather.toFixed(2)} °C</p>
+                    <p class="card-text">Humidity: ${todaysHumidity}%</p>
+                    <p class="card-text">Wind Speed: ${todaysWind.toFixed(2)} kmph</p>
                     `;
+                     
+
+                    // Append the card body to the card
+                    cardElement.appendChild(cardBodyElement);
+
+                    // Append the card to the #today section
+                    todaySectionEl.appendChild(cardElement);
 
                     // let forecastSectionEl = document.querySelector("#forecast");
                     // forecastSectionEl.innerHTML = ""; // Clear previous forecast
@@ -77,9 +94,9 @@ document.querySelector('.search-button').addEventListener('click', function (eve
                     //     `;
                     // }
                 })
-               
+
         })
-        
+
 });
 
 function updateCityButtons() {
