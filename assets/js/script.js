@@ -31,6 +31,7 @@ document.querySelector('.search-button').addEventListener('click', function (eve
             cityBtn.appendChild(btn);
     
             btn.addEventListener('click', function(){
+                // document.querySelector("#today").empty;
                 weatherData(city);
             });
         }
@@ -44,13 +45,15 @@ document.querySelector('.search-button').addEventListener('click', function (eve
         .then(function (data) {
 
 
-            console.log(data);
+            // console.log(data);
 
             let lat = data[0].lat;
             let lon = data[0].lon;
+            let cityName = data[0].name
 
-            console.log(lat);
-            console.log(lon);
+            // console.log(lat);
+            // console.log(lon);
+            // console.log(cityName);
 
             let queryURL = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&cnt=40&appid=${api}&units=metric`;
 
@@ -63,13 +66,14 @@ document.querySelector('.search-button').addEventListener('click', function (eve
                 .then(function (data) {
 
 
-                    console.log(data);
+                    // console.log(data);        
                     let todaysWeather = data.list[0].main.temp; // Temperature in Kelvin
                     let todaysWind = data.list[0].wind.speed; // Wind speed in m/s
                     let todaysHumidity = data.list[0].main.humidity;
-                    console.log(todaysWeather);
-                    console.log(todaysWind);
-                    console.log(todaysHumidity);
+                    
+                    // console.log(todaysWeather);
+                    // console.log(todaysWind);
+                    // console.log(todaysHumidity);
 
                     let now = dayjs();
 
@@ -86,8 +90,8 @@ document.querySelector('.search-button').addEventListener('click', function (eve
                     cardBodyElement.className = "card-body";
 
                     // Add the content to the card body
-                    cardBodyElement.innerHTML = `  
-                    <h2 class="card-text"> ${now.format('dddd MM-DD-YY  HH:mm')}</h2>
+                    cardBodyElement.innerHTML = `<h2 class="card-text">${cityName}</h2>
+                    <h4 class="card-text"> ${now.format('dddd MM-DD-YY  HH:mm')}</h4>
                     <img src="./assets/images/temperature-half-solid.svg" width="35px"alt="Temperature Icon">
                     <p class="card-text">Temperature: ${todaysWeather.toFixed(2)} °C</p>
                     <p class="card-text">Humidity: ${todaysHumidity}%</p>
@@ -100,21 +104,6 @@ document.querySelector('.search-button').addEventListener('click', function (eve
                     // Append the card to the #today section
                     todaySectionEl.appendChild(cardElement);
 
-                    // let forecastSectionEl = document.querySelector("#forecast");
-                    // forecastSectionEl.innerHTML = ""; // Clear previous forecast
-
-                    // // Forecast for next days
-                    // for (let i = 0; i <= 4; i++) {
-                    //     let daysForecast = data.list[i];
-                    //     let forecastTemp = daysForecast.main.temp; // Temperature in Kelvin
-
-                    //     // Convert temperature from Kelvin to Celsius
-                    //     // let forecastTempCelsius = forecastTemp - 273.15;
-
-                    //     forecastSectionEl.innerHTML += `
-                    //         <p>${i} day: ${forecastTemp.toFixed(2)} °C</p>
-                    //     `;
-                    // }
                 })
 
         })
