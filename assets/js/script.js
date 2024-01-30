@@ -52,6 +52,8 @@ document.querySelector('.search-button').addEventListener('click', function (eve
                     console.log(todaysWind);
                     console.log(todaysHumidity);
 
+                    let now = dayjs();
+
 
 
                     let todaySectionEl = document.querySelector("#today");
@@ -66,6 +68,8 @@ document.querySelector('.search-button').addEventListener('click', function (eve
 
                     // Add the content to the card body
                     cardBodyElement.innerHTML = `  
+                    <h2 class="card-text"> ${now.format('dddd YYYY-MM-DD HH:mm')}</h2>
+                    <img src="./assets/images/temperature-half-solid.svg" width="35px"alt="Temperature Icon">
                     <p class="card-text">Temperature: ${todaysWeather.toFixed(2)} °C</p>
                     <p class="card-text">Humidity: ${todaysHumidity}%</p>
                     <p class="card-text">Wind Speed: ${todaysWind.toFixed(2)} kmph</p>
